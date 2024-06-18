@@ -4,10 +4,11 @@ import os
 import aws_cdk as cdk
 
 from py_starter.py_starter_stack import PyStarterStack
+from py_starter.py_handler_stack import PyHandlerStack
 
 
 app = cdk.App()
-PyStarterStack(app, "PyStarterStack",
+starter_stack = PyStarterStack(app, "PyStarterStack",
     # If you don't specify 'env', this stack will be environment-agnostic.
     # Account/Region-dependent features and context lookups will not work,
     # but a single synthesized template can be deployed anywhere.
@@ -24,5 +25,7 @@ PyStarterStack(app, "PyStarterStack",
 
     # For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html
     )
+
+PyHandlerStack(app, "pyHandlerStack", bucket=starter_stack.cool_bucket)
 
 app.synth()
