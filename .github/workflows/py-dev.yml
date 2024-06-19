@@ -1,0 +1,62 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: python cdk deploy
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    # the first step is to checkout our repository
+    - uses: actions/checkout@v3
+
+    # then we need to build our UI project, generate the web subfolder (in our case)
+    - name: install web app dependencies
+      working-directory: ./web
+      run: npm ci # npm clean install will be executed in this web directory
+
+    # now, we need to build this application
+    - name: build web app
+      working-directory: ./web
+      run: npm run build
+
+    # first of all, we need to install AWS CDK. we can install it as a global npm package
+    # npm and python are already installed in 'ubuntu-latest' where we already run on, so, 
+    # we don't need to install python and npm ourselves
+    # since we have it as a global dependency 'g' we don't have to activate a python environment locally, 
+    # we can use the global reference of aws-cdk inside the github machine
+    - name: install AWS CDK
+      run: sudo npm i -g aws-cdk
+
+    # now, we can install local dependencies which are specied in requirements.txt
+    - name: install deploymen dependencies
+      working-directory: ./py-webdepl
+      run: pip3 install -r requirements.txt
+
+    # it's time to call cdk synth
+    - name: cdk synth
+      working-directory: ./py-webdepl
+      run: cdk synth
+
+    # finally, we can run 'cdk deploy' but this requires credentials
+    - name: cdk deploy
+      working-directory: ./py-webdepl
+      # below are the links between our AWS and github account
+      # we have AWS_ACCESS_KEY_ID as an environment variable inside our github account
+      # also AWS_SECRET_ACCESS_KEY and AWS_DEFAULT_REGION
+      env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+      run: cdk deploy
