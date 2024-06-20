@@ -14,8 +14,9 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        # node-version: [14.x, 16.x, 18.x] >> this builds for all versions, but we will just go for 18
 
     steps:
     # the first step is to checkout our repository
