@@ -1,5 +1,6 @@
-
 # Welcome to your CDK Python project!
+
+Reference: https://github.com/alexhddev/cdkpro/tree/main
 
 This is a blank project for CDK development with Python.
 
@@ -56,3 +57,12 @@ command.
  * `cdk docs`        open CDK documentation
 
 Enjoy!
+------------------ py-testing
+all the test functions must start with "test_"
+------------------ ts-testing 
+(package.json)
+jest is our testing library, test runner, also CDK lib already contains some functionality for testing CDK
+so, we have all libraries installed.
+(jest.config.js)
+we also have a jest configuration which tells this jest config files where to look for test
+!! all the files should end with ".test.ts"
