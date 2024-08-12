@@ -22,7 +22,7 @@ jobs:
       run: npm install -g aws-cdk
 
     - name: Install dependencies
-      run: pip install -r requirements.txt
+      run: pip install -r glue-cdk-example/requirements.txt
 
     - name: Deploy CDK Stack
       env:
