@@ -1,5 +1,5 @@
 {
-  "app": "python3 app.py",
+  "app": "python3 glue-cdk-example/app.py",
   "watch": {
     "include": [
       "**"
