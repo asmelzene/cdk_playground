@@ -3,7 +3,7 @@ name: Deploy CDK Stack
 on:
   push:
     branches:
-      - 'wheel*'  # This pattern matches branches starting with 'wheel'
+      - 'wheel*'
 
 jobs:
   deploy:
@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -26,7 +26,7 @@ jobs:
 
     - name: Print current directory
       run: pwd
-    
+
     - name: List files in the current directory
       run: ls -al
 
@@ -36,8 +36,8 @@ jobs:
 
     - name: Deploy CDK Stack
       working-directory: glue-cdk-example
+      run: cdk deploy --require-approval never
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
-      run: cdk deploy --require-approval never
