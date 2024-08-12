@@ -24,6 +24,12 @@ jobs:
     - name: Install dependencies
       run: pip install -r glue-cdk-example/requirements.txt
 
+    - name: Print current directory
+      run: pwd
+    
+    - name: List files in the current directory
+      run: ls -al
+
     - name: Synthesize CDK App
       working-directory: glue-cdk-example
       run: cdk synth
