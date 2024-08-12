@@ -24,6 +24,10 @@ jobs:
     - name: Install dependencies
       run: pip install -r glue-cdk-example/requirements.txt
 
+    - name: Synthesize CDK App
+      working-directory: glue-cdk-example
+      run: cdk synth
+
     - name: Deploy CDK Stack
       working-directory: glue-cdk-example
       env:
