@@ -1,0 +1,32 @@
+name: Deploy CDK Stack
+
+on:
+  push:
+    branches:
+      - 'wheel*'  # This pattern matches branches starting with 'wheel'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+
+    - name: Install AWS CDK
+      run: npm install -g aws-cdk
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Deploy CDK Stack
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+      run: cdk deploy --require-approval never
