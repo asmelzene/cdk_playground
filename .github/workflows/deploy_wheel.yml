@@ -25,6 +25,7 @@ jobs:
       run: pip install -r glue-cdk-example/requirements.txt
 
     - name: Deploy CDK Stack
+      working-directory: glue-cdk-example
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
