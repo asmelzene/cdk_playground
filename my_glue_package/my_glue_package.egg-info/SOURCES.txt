@@ -1,0 +1,5 @@
+setup.py
+my_glue_package.egg-info/PKG-INFO
+my_glue_package.egg-info/SOURCES.txt
+my_glue_package.egg-info/dependency_links.txt
+my_glue_package.egg-info/top_level.txt
