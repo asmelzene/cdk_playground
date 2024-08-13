@@ -48,6 +48,10 @@ jobs:
         working-directory: ./ts-glue-cdk-example
         run: cdk synth
 
+      - name: Bootstrap CDK
+        working-directory: ./ts-glue-cdk-example
+        run: cdk bootstrap
+
       - name: Deploy CDK
         working-directory: ./ts-glue-cdk-example
         run: cdk deploy --require-approval never
