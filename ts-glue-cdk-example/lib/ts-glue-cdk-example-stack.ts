@@ -23,8 +23,8 @@ export class GlueJobStack extends Stack {
     const role = new iam.Role(this, 'GlueJobRole', {
       assumedBy: new iam.ServicePrincipal('glue.amazonaws.com'),
       managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSGlueServiceRole'),
-        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSGlueConsoleFullAccess'), // Example: Attach additional policies
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AWSGlueServiceRole'),
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AWSGlueConsoleFullAccess'), // Example: Attach additional policies
       ],
     });
 
