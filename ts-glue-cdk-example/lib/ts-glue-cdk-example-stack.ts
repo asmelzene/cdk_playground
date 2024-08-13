@@ -35,15 +35,16 @@ export class GlueJobStack extends Stack {
       ],
     });
 
-    // Optionally, add inline policies
+    // Add permissions to access S3 bucket and objects
     role.addToPolicy(new iam.PolicyStatement({
       actions: [
         's3:GetObject',
         's3:ListBucket',
       ],
       resources: [
-        `arn:aws:s3:::${bucket.bucketName}`,
-        `arn:aws:s3:::${bucket.bucketName}/*`,
+        `arn:aws:s3:::${bucket.bucketName}`, // Permission to list the bucket
+        `arn:aws:s3:::${bucket.bucketName}/scripts/*`, // Permission to get objects in the 'scripts/' directory
+        `arn:aws:s3:::${bucket.bucketName}/wheels/*`, // Permission to get objects in the 'wheels/' directory
       ],
     }));
 
