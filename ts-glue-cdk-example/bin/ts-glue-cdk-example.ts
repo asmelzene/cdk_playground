@@ -1,48 +1,6 @@
-import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
-import * as glue from 'aws-cdk-lib/aws-glue';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import { Stack, StackProps } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+#!/usr/bin/env node
+import * as cdk from 'aws-cdk-lib';
+import { GlueJobStack } from '../lib/ts-glue-cdk-example-stack'; // Ensure this import matches your class name
 
-export class GlueJobStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
-    super(scope, id, props);
-
-    // Create an S3 bucket
-    const bucket = new s3.Bucket(this, 'MyGlueJobBucket');
-
-    // Upload the script to the S3 bucket
-    new s3deploy.BucketDeployment(this, 'DeployGlueScript', {
-      sources: [s3deploy.Source.asset('scripts')], // path/to/local/scripts
-      destinationBucket: bucket,
-      destinationKeyPrefix: 'scripts/', // optional prefix in the bucket
-    });
-
-    // Create an IAM role for the Glue job
-    const role = new iam.Role(this, 'GlueJobRole', {
-      assumedBy: new iam.ServicePrincipal('glue.amazonaws.com'),
-      managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSGlueServiceRole'),
-      ],
-    });
-
-    // Create the Glue job using JobProps
-    const glueJob = new glue.CfnJob(this, 'GlueJob', {
-      role: role.roleArn,
-      command: {
-        name: 'glueetl',
-        scriptLocation: `s3://${bucket.bucketName}/scripts/test-script.py`,
-        pythonVersion: '3',
-      },
-      glueVersion: '3.0',
-      defaultArguments: {
-        '--job-language': 'python',
-        '--extra-py-files': `s3://${bucket.bucketName}/libs/my_glue_package-0.1-py3-none-any.whl`, // Reference to the wheel file
-      },
-    });
-
-    // Grant Glue job permissions to read the script
-    bucket.grantRead(role);
-  }
-}
+const app = new cdk.App();
+new GlueJobStack(app, 'GlueJobStack'); // Ensure this matches the stack class name
