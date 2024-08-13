@@ -1,0 +1,43 @@
+name: Deploy CDK Stack
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+
+    - name: Install AWS CDK
+      run: npm install -g aws-cdk
+
+    - name: Install dependencies
+      run: pip install -r glue-cdk-example/requirements.txt
+
+    - name: Print current directory
+      run: pwd
+
+    - name: List files in the current directory
+      run: ls -al
+
+    - name: Synthesize CDK App
+      working-directory: glue-cdk-example
+      run: cdk synth
+
+    - name: Deploy CDK Stack
+      working-directory: glue-cdk-example
+      run: cdk deploy --require-approval never
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
