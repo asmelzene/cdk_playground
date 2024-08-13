@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: '18'  # Upgrade to a supported version of Node.js
 
+      - name: Install AWS CDK globally
+        run: npm install -g aws-cdk
+
       - name: Install dependencies
         working-directory: ./ts-glue-cdk-example  # Set the correct working directory 
         run: npm install
