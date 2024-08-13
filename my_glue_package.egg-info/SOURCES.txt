@@ -1,4 +1,7 @@
+README.md
 setup.py
+setup_wheel.py
+my_glue_package/__init__.py
 my_glue_package.egg-info/PKG-INFO
 my_glue_package.egg-info/SOURCES.txt
 my_glue_package.egg-info/dependency_links.txt
