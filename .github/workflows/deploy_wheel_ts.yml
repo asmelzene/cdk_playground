@@ -19,6 +19,7 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
+        working-directory: ./ts-glue-cdk-example  # Set the correct working directory 
         run: npm install
 
       - name: Set up Python
@@ -27,6 +28,7 @@ jobs:
           python-version: '3.11'
 
       - name: Build Python package
+        working-directory: ./my_glue_package  # Navigate to the Python package directory
         run: |
           python3 -m pip install --upgrade pip
           pip install setuptools wheel
