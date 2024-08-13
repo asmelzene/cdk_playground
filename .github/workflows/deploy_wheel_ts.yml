@@ -3,7 +3,7 @@ name: Deploy Glue Job
 on:
   push:
     branches:
-      - main
+      - 'wheel*'
 
 jobs:
   deploy-wheel:
