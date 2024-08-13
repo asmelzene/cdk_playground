@@ -44,6 +44,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: Bootstrap CDK
+        working-directory: ./ts-glue-cdk-example
+        run: cdk bootstrap
+
       - name: Synthesize CDK
         working-directory: ./ts-glue-cdk-example
         run: cdk synth

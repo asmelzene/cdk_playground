@@ -24,8 +24,21 @@ export class GlueJobStack extends Stack {
       assumedBy: new iam.ServicePrincipal('glue.amazonaws.com'),
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSGlueServiceRole'),
+        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSGlueConsoleFullAccess'), // Example: Attach additional policies
       ],
     });
+
+    // Optionally, add inline policies
+    role.addToPolicy(new iam.PolicyStatement({
+      actions: [
+        's3:GetObject',
+        's3:ListBucket',
+      ],
+      resources: [
+        `arn:aws:s3:::${bucket.bucketName}`,
+        `arn:aws:s3:::${bucket.bucketName}/*`,
+      ],
+    }));
 
     // Create the Glue job using JobProps
     const glueJob = new glue.CfnJob(this, 'GlueJob', {
