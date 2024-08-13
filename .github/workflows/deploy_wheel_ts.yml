@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '18'  # Upgrade to a supported version of Node.js
 
       - name: Install dependencies
         working-directory: ./ts-glue-cdk-example  # Set the correct working directory 
@@ -41,8 +41,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: Synthesize CDK
+        working-directory: ./ts-glue-cdk-example
+        run: cdk synth
+
       - name: Deploy CDK
         working-directory: ./ts-glue-cdk-example
-        run: |
-          npm install -g aws-cdk
-          cdk deploy --require-approval never
+        run: cdk deploy --require-approval never
