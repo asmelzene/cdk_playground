@@ -12,11 +12,15 @@ export class GlueJobStack extends Stack {
     // Create an S3 bucket
     const bucket = new s3.Bucket(this, 'MyGlueJobBucket');
 
-    // Upload the script to the S3 bucket
-    new s3deploy.BucketDeployment(this, 'DeployGlueScript', {
-      sources: [s3deploy.Source.asset('scripts')], // path/to/local/scripts
+    // Upload the script and wheel file to the S3 bucket
+    new s3deploy.BucketDeployment(this, 'DeployGlueAssets', {
+      sources: [
+        s3deploy.Source.asset('scripts'), // path/to/local/scripts
+        s3deploy.Source.asset('wheel_libs'),    // path/to/local/libs (which contains the .whl file)
+      ],
       destinationBucket: bucket,
-      destinationKeyPrefix: 'scripts/', // optional prefix in the bucket
+      // destinationKeyPrefix: 'scripts/',
+      destinationKeyPrefix: '', // no prefix needed to deploy at the root level
     });
 
     // Create an IAM role for the Glue job
