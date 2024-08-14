@@ -1,0 +1,7 @@
+setup.py
+my_connection_package/__init__.py
+my_connection_package/connection_module.py
+my_connection_package.egg-info/PKG-INFO
+my_connection_package.egg-info/SOURCES.txt
+my_connection_package.egg-info/dependency_links.txt
+my_connection_package.egg-info/top_level.txt
