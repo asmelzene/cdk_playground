@@ -22,14 +22,14 @@ export class GlueJobStack2 extends Stack {
     // Upload the wheel file to the 'wheels/' prefix in the S3 bucket
     // or we can name them as libs/ instead of wheels/
     new s3deploy.BucketDeployment(this, 'DeployMyConnectionLibs', {
-      sources: [s3deploy.Source.asset('../my_connection_package/my_connection_package/dist')], // path/to/local/wheel_libs .. (changed to dist)
+      sources: [s3deploy.Source.asset('../my_connection_package/dist')], // path/to/local/wheel_libs .. (changed to dist)
       destinationBucket: bucket,
       destinationKeyPrefix: 'wheels/', // files will be uploaded under 'wheels/' prefix
     });
 
     // Upload the wheel file to the 'wheels/' prefix in the S3 bucket
     new s3deploy.BucketDeployment(this, 'DeployMyUtilsLibs', {
-      sources: [s3deploy.Source.asset('../my_utils_package/my_utils_package/dist')], // path/to/local/wheel_libs .. (changed to dist)
+      sources: [s3deploy.Source.asset('../my_utils_package/dist')], // path/to/local/wheel_libs .. (changed to dist)
       destinationBucket: bucket,
       destinationKeyPrefix: 'wheels/', // files will be uploaded under 'wheels/' prefix
     });
