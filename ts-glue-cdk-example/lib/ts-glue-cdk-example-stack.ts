@@ -24,14 +24,14 @@ export class GlueJobStack2 extends Stack {
     new s3deploy.BucketDeployment(this, 'DeployMyConnectionLibs', {
       sources: [s3deploy.Source.asset('../my_connection_package/dist')], // path/to/local/wheel_libs .. (changed to dist)
       destinationBucket: bucket,
-      destinationKeyPrefix: 'wheels/', // files will be uploaded under 'wheels/' prefix
+      destinationKeyPrefix: 'wheels/connection/', // files will be uploaded under 'wheels/' prefix
     });
 
     // Upload the wheel file to the 'wheels/' prefix in the S3 bucket
     new s3deploy.BucketDeployment(this, 'DeployMyUtilsLibs', {
       sources: [s3deploy.Source.asset('../my_utils_package/dist')], // path/to/local/wheel_libs .. (changed to dist)
       destinationBucket: bucket,
-      destinationKeyPrefix: 'wheels/', // files will be uploaded under 'wheels/' prefix
+      destinationKeyPrefix: 'wheels/utils/', // files will be uploaded under 'wheels/' prefix
     });
 
     // Create an IAM role for the Glue job
