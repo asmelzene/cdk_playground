@@ -5,12 +5,12 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-export class GlueJobStack extends Stack {
+export class GlueJobStack2 extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
     // Create an S3 bucket
-    const bucket = new s3.Bucket(this, 'MyGlueJobBucket');
+    const bucket = new s3.Bucket(this, 'MyGlueJobBucket2');
 
     // Upload the script files to the 'scripts/' prefix in the S3 bucket
     new s3deploy.BucketDeployment(this, 'DeployScripts', {
@@ -19,11 +19,19 @@ export class GlueJobStack extends Stack {
       destinationKeyPrefix: 'scripts/', // files will be uploaded under 'scripts/' prefix
     });
 
-    // Upload the wheel file to the 'libs/' prefix in the S3 bucket
-    new s3deploy.BucketDeployment(this, 'DeployWheelLibs', {
-      sources: [s3deploy.Source.asset('wheel_libs')], // path/to/local/wheel_libs
+    // Upload the wheel file to the 'wheels/' prefix in the S3 bucket
+    // or we can name them as libs/ instead of wheels/
+    new s3deploy.BucketDeployment(this, 'DeployMyConnectionLibs', {
+      sources: [s3deploy.Source.asset('../my_connection_package/my_connection_package/dist')], // path/to/local/wheel_libs .. (changed to dist)
       destinationBucket: bucket,
-      destinationKeyPrefix: 'libs/', // files will be uploaded under 'libs/' prefix
+      destinationKeyPrefix: 'wheels/', // files will be uploaded under 'wheels/' prefix
+    });
+
+    // Upload the wheel file to the 'wheels/' prefix in the S3 bucket
+    new s3deploy.BucketDeployment(this, 'DeployMyUtilsLibs', {
+      sources: [s3deploy.Source.asset('../my_utils_package/my_utils_package/dist')], // path/to/local/wheel_libs .. (changed to dist)
+      destinationBucket: bucket,
+      destinationKeyPrefix: 'wheels/', // files will be uploaded under 'wheels/' prefix
     });
 
     // Create an IAM role for the Glue job
@@ -49,7 +57,7 @@ export class GlueJobStack extends Stack {
     }));
 
     // Create the Glue job using JobProps
-    const glueJob = new glue.CfnJob(this, 'GlueJob', {
+    const glueJob = new glue.CfnJob(this, 'GlueJob2', {
       role: role.roleArn,
       command: {
         name: 'glueetl',

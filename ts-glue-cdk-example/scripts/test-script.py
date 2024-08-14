@@ -1,3 +1,5 @@
-from my_glue_package import hello_world
+from my_connection_package.connection_module import test_connection
+from my_utils_package.utils_module import test_utils
 
-hello_world()
+test_connection()
+test_utils()

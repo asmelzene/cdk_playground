@@ -5,18 +5,18 @@ from aws_cdk import (
 )
 from constructs import Construct
 
-class GlueJobStack(Stack):
+class GlueJobStack2(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         # Create an S3 bucket to store the wheel file
-        bucket_wheel = s3.Bucket(self, "GlueJobBucket-wheel")
+        bucket_wheel = s3.Bucket(self, "GlueJobBucket-wheel-v2")
 
         # Create an S3 bucket to store the Python script
-        bucket_script = s3.Bucket(self, "GlueJobBucket-script")
+        bucket_script = s3.Bucket(self, "GlueJobBucket-script-v2")
 
         # Create the Glue job
-        job = glue.CfnJob(self, "GlueJob",
+        job = glue.CfnJob(self, "GlueJob2",
             role='glue-job-role',  # Replace this with a valid IAM role ARN or create a role resource
             command=glue.CfnJob.JobCommandProperty(
                 name="glueetl",
