@@ -67,7 +67,7 @@ export class GlueJobStack2 extends Stack {
       glueVersion: '3.0',
       defaultArguments: {
         '--job-language': 'python',
-        '--extra-py-files': `s3://${bucket.bucketName}/libs/my_glue_package-0.1-py3-none-any.whl`, // Reference to the wheel file
+        '--extra-py-files': `s3://${bucket.bucketName}/libs/my_connection_package-0.1-py3-none-any.whl,s3://${bucket.bucketName}/libs/my_utils_package-0.1-py3-none-any.whl`, // Reference to the wheel files
       },
     });
 
